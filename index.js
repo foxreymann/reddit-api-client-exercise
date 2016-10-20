@@ -1,9 +1,23 @@
 const https = require('https')
 
+const config = {
+  authorsUri: 'https://www.reddit.com/r/aww.json',
+  karmasUri: 'https://www.reddit.com/user/%s/about.json'
+}
+
+getAuthors()
+.then(authors => getKarmas())
+.then(authors => exportAuthorsToFile())
+
+function getAuthors() {
+
+}
+
 makeRequest('https://www.reddit.com/r/aww.json')
   .then((html) => console.log(html))
   .catch((err) => console.error(err))
 
+// https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies
 function makeRequest(url) {
   // return new pending promise
   return new Promise((resolve, reject) => {
