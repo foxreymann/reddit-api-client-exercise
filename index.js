@@ -1,21 +1,38 @@
 const https = require('https')
 
 const config = {
-  authorsUri: 'https://www.reddit.com/r/aww.json',
-  karmasUri: 'https://www.reddit.com/user/%s/about.json'
+  authorsUrl: 'https://www.reddit.com/r/aww.json',
+  karmasUrl: 'https://www.reddit.com/user/%s/about.json'
 }
 
-getAuthors()
-.then(authors => getKarmas())
+getAuthors(config.authorsUrl)
+.then(authors => Promise.all(authors.map(getKarma)))
 .then(authors => exportAuthorsToFile())
 
-function getAuthors() {
-
+function getAuthors(url) {
+  return new Promise((resolve, reject) => {
+    resolve([1,2])
+  })
 }
 
+function getKarma(url) {
+  return new Promise((resolve, reject) => {
+    resolve()
+  })
+}
+
+function exportAuthorsToFile(url) {
+  return new Promise((resolve, reject) => {
+console.log('done')
+    resolve()
+  })
+}
+
+/*
 makeRequest('https://www.reddit.com/r/aww.json')
   .then((html) => console.log(html))
   .catch((err) => console.error(err))
+*/
 
 // https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies
 function makeRequest(url) {
