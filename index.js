@@ -11,7 +11,9 @@ getAuthors(config.authorsUrl)
 
 function getAuthors(url) {
   return new Promise((resolve, reject) => {
-    resolve([1,2])
+    makeRequest(config.authorsUrl)
+    .then((res) => resolve(extractAuthors(JSON.parse(res))))
+    .catch((err) => console.error(err))
   })
 }
 
@@ -28,6 +30,10 @@ console.log('done')
   })
 }
 
+function extractAuthors(json) {
+  return [1,2]
+}
+
 /*
 makeRequest('https://www.reddit.com/r/aww.json')
   .then((html) => console.log(html))
@@ -39,8 +45,7 @@ function makeRequest(url) {
   // return new pending promise
   return new Promise((resolve, reject) => {
     // select http or https module, depending on reqested url
-    const lib = url.startsWith('https') ? require('https') : require('http');
-    const request = lib.get(url, (response) => {
+    const request = https.get(url, (response) => {
       // handle http errors
       if (response.statusCode < 200 || response.statusCode > 299) {
          reject(new Error('Failed to load page, status code: ' + response.statusCode));
