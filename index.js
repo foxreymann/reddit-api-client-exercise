@@ -1,7 +1,9 @@
 'use strict'
 
 const https = require('https'),
-      fs = require('fs')
+      fs = require('fs'),
+      timer = new Timer()
+
 
 const config = {
   authorsUrl: 'https://www.reddit.com/r/aww.json',
@@ -9,6 +11,19 @@ const config = {
   fileLoc: 'authors.json'
 }
 
+function Timer() {
+  this.startTime = +(new Date())
+}
+
+Timer.prototype.start = function() {
+  this.startTime = +(new Date())
+}
+
+Timer.prototype.stop = function() {
+  return +(new Date) - this.startTime
+}
+
+timer.start()
 getAuthors(config.authorsUrl)
 .then(authors => Promise.all(authors.map(getKarma)))
 .then(authors => exportAuthorsToFile(authors))
@@ -45,6 +60,7 @@ function extractKarmas(json, author) {
 }
 
 function exportAuthorsToFile(authors) {
+console.log(timer.stop())
   fs.writeFile(config.fileLoc, JSON.stringify(authors), (err) => {
     if (err) throw err;
   });
