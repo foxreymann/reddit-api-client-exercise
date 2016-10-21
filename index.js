@@ -1,10 +1,12 @@
 'use strict'
 
-const https = require('https')
+const https = require('https'),
+      fs = require('fs')
 
 const config = {
   authorsUrl: 'https://www.reddit.com/r/aww.json',
-  karmasUrl: 'https://www.reddit.com/user/%s/about.json'
+  karmasUrl: 'https://www.reddit.com/user/%s/about.json',
+  fileLoc: 'authors.json'
 }
 
 getAuthors(config.authorsUrl)
@@ -43,17 +45,10 @@ function extractKarmas(json, author) {
 }
 
 function exportAuthorsToFile(authors) {
-  return new Promise((resolve, reject) => {
-console.log(authors)
-    resolve()
-  })
+  fs.writeFile(config.fileLoc, JSON.stringify(authors), (err) => {
+    if (err) throw err;
+  });
 }
-
-/*
-makeRequest('https://www.reddit.com/r/aww.json')
-  .then((html) => console.log(html))
-  .catch((err) => console.error(err))
-*/
 
 // https://www.tomas-dvorak.cz/posts/nodejs-request-without-dependencies
 function makeRequest(url) {
