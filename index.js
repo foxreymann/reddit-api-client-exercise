@@ -4,7 +4,6 @@ const https = require('https'),
       fs = require('fs'),
       timer = new Timer()
 
-
 const config = {
   authorsUrl: 'https://www.reddit.com/r/aww.json',
   karmasUrl: 'https://www.reddit.com/user/%s/about.json',
