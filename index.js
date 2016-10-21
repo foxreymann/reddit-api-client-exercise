@@ -9,7 +9,7 @@ const config = {
 
 getAuthors(config.authorsUrl)
 .then(authors => Promise.all(authors.map(getKarma)))
-.then(authors => exportAuthorsToFile())
+.then(authors => exportAuthorsToFile(authors))
 
 function getAuthors(url) {
   return new Promise((resolve, reject) => {
@@ -30,20 +30,21 @@ function extractAuthors(json) {
 
 function getKarma(author) {
   return new Promise((resolve, reject) => {
-console.log(karmasUrl.replace('%s', author))
-    makeRequest(karmasUrl.replace('%s', author))
+    makeRequest(config.karmasUrl.replace('%s', author.author))
     .then((res) => resolve(extractKarmas(JSON.parse(res), author)))
     .catch((err) => console.error(err))
   })
 }
 
 function extractKarmas(json, author) {
-  console.log(json)
+  author.link_karma = json.data.link_karma
+  author.comment_karma = json.data.link_karma
+  return author
 }
 
-function exportAuthorsToFile(url) {
+function exportAuthorsToFile(authors) {
   return new Promise((resolve, reject) => {
-console.log('done')
+console.log(authors)
     resolve()
   })
 }
