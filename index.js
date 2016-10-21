@@ -19,11 +19,26 @@ function getAuthors(url) {
   })
 }
 
+function extractAuthors(json) {
+  let authors = []
+  for(let children of json.data.children) {
+    authors.push({ author: children.data.author })
+  }
+  return authors
+}
+
+
 function getKarma(author) {
-console.log(author)
   return new Promise((resolve, reject) => {
-    resolve()
+console.log(karmasUrl.replace('%s', author))
+    makeRequest(karmasUrl.replace('%s', author))
+    .then((res) => resolve(extractKarmas(JSON.parse(res), author)))
+    .catch((err) => console.error(err))
   })
+}
+
+function extractKarmas(json, author) {
+  console.log(json)
 }
 
 function exportAuthorsToFile(url) {
@@ -31,14 +46,6 @@ function exportAuthorsToFile(url) {
 console.log('done')
     resolve()
   })
-}
-
-function extractAuthors(json) {
-  let authors = []
-  for(let children of json.data.children) {
-    authors.push({ author: children.data.author })
-  }
-  return authors
 }
 
 /*
