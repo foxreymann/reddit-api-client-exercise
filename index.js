@@ -1,3 +1,5 @@
+'use strict'
+
 const https = require('https')
 
 const config = {
@@ -17,7 +19,8 @@ function getAuthors(url) {
   })
 }
 
-function getKarma(url) {
+function getKarma(author) {
+console.log(author)
   return new Promise((resolve, reject) => {
     resolve()
   })
@@ -31,7 +34,11 @@ console.log('done')
 }
 
 function extractAuthors(json) {
-  return [1,2]
+  let authors = []
+  for(let children of json.data.children) {
+    authors.push({ author: children.data.author })
+  }
+  return authors
 }
 
 /*
