@@ -60,8 +60,10 @@ function extractKarmas(json, author) {
 }
 
 function exportAuthorsToFile(authors) {
-console.log(timer.stop())
-  fs.writeFile(config.fileLoc, JSON.stringify(authors), (err) => {
+  let exectionTime = '// Execution time: ' + timer.stop() / 1000 + ' seconds\n',
+      fileText = exectionTime + JSON.stringify(authors)
+
+  fs.writeFile(config.fileLoc, fileText, (err) => {
     if (err) throw err;
   });
 }
